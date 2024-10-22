@@ -1,39 +1,78 @@
 <?php
-require_once $_SERVER["DOCUMENT_ROOT"]."/crudmvcweb/Domain/Models/UsuarioModel.php";
-require_once $_SERVER["DOCUMENT_ROOT"]."/crudmvcweb/Infraestructure/Entities/UsuarioEntity.php";
-require_once $_SERVER["DOCUMENT_ROOT"]."/crudmvcweb/Business/Contracts/IUsuarioRepository.php";
+require_once $_SERVER["DOCUMENT_ROOT"] . "/crudmvcweb/Domain/Models/UsuarioModel.php";
+require_once $_SERVER["DOCUMENT_ROOT"] . "/crudmvcweb/Infraestructure/Database/Entities/UsuarioEntity.php";
+require_once $_SERVER["DOCUMENT_ROOT"] . "/crudmvcweb/Application/Contracts/IUsuarioRepository.php";
+require_once $_SERVER["DOCUMENT_ROOT"] . "/crudmvcweb/Common/Mapper/EntityToModel.php";
+require_once $_SERVER["DOCUMENT_ROOT"] . "/crudmvcweb/Application/Exceptions/EntityNotFoundException.php";
+require_once $_SERVER["DOCUMENT_ROOT"] . "/crudmvcweb/Application/Exceptions/ENtityPreexistingException.php";
 class UsuarioRepository implements IUsuarioRepository
 {
-    public function getAll()
+    public function getAllUsers(): array
     {
-        $usuarioModel = new UsuarioModel();
-        $usuarios = $usuarioModel->getAll();
-        return $usuarios;
+        try {
+            $usuariosEntities = UsuarioEntity::all();
+            $usuariosModels = [];
+            foreach ($usuariosEntities as $usuarioEntity) {
+                $usuariosModels[] = EntityToModel::usuario_entity_to_model($usuarioEntity);
+            }
+
+            return $usuariosModels;
+        } catch (Exception $e) {
+            throw new Exception("No hay usuarios registrados.");
+        }
     }
 
-    public function getById($id)
+    public function findUserByIdentificacion(string $identificacion): UsuarioModel
     {
-        $usuarioModel = new UsuarioModel();
-        $usuario = $usuarioModel->getById($id);
-        return $usuario;
+        try {
+            $usuario = UsuarioEntity::find($identificacion);
+            $usuarioModel = EntityToModel::usuario_entity_to_model($usuario);
+            return $usuarioModel;
+        } catch (Exception $e) {
+            throw new EntityNotFoundException("El usuario con identificación $identificacion no existe.");
+        }
     }
 
-    public function insert(UsuarioEntity $usuario)
+    public function createUser(UsuarioModel $usuario): int
     {
-        $usuarioModel = new UsuarioModel();
-        $usuarioModel->insert($usuario);
+        try {
+            $user = $this->findUserByIdentificacion($usuario->getIdentificacion());
+            if ($user) {
+                throw new EntityPreexistingException("El usuario con la indentificacion" . $usuario->getIdentificacion() . "ya existe.");
+            }
+        } catch (EntityNotFoundException $e) {
+            $usuarioEntity = EntityToModel::usuario_model_to_entity($usuario);
+            $usuarioEntity->save();
+            return $this->count();
+        } catch (EntityPreexistingException $e) {
+            throw $e;
+        }
     }
 
-    public function update(UsuarioEntity $usuario)
+    public function updateUser(UsuarioModel $usuario)
     {
-        $usuarioModel = new UsuarioModel();
-        $usuarioModel->update($usuario);
+        try {
+            $usuarioModel = $this->findUserByIdentificacion($usuario->getIdentificacion());
+            $usuarioEntity = EntityToModel::usuario_model_to_entity($usuarioModel);
+            $usuarioEntity->save();
+        } catch (EntityNotFoundException $e) {
+            $message = "El usuario con cedula " . $usuario->getIdentificacion() . " no existe.";
+            throw new EntityNotFoundException($message);
+        }
     }
 
-    public function delete($id)
+    public function deleteUser(string $identificacion)
     {
-        $usuarioModel = new UsuarioModel();
-        $usuarioModel->delete($id);
+        try {
+            $userModel = $this->findUserByIdentificacion($identificacion);
+            $usuarioEntity = EntityToModel::usuario_model_to_entity($userModel);
+            $usuarioEntity->delete();
+        } catch (Exception $e) {
+            throw new EntityNotFoundException("El usuario que desea eliminar con la indentificacion $identificacion no existe.");
+        }
+    }
+    public function count(): int
+    {
+        return UsuarioEntity::count();
     }
 }
-?>

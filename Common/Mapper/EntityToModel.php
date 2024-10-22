@@ -1,5 +1,5 @@
 <?php
-require_once $_SERVER["DOCUMENT_ROOT"]."/crudmvcweb/Infraestructure/Entities/UsuarioEntity.php";
+require_once $_SERVER["DOCUMENT_ROOT"]."/crudmvcweb/Infraestructure/Database/Entities/UsuarioEntity.php";
 require_once $_SERVER["DOCUMENT_ROOT"]."/crudmvcweb/Domain/Models/UsuarioModel.php";
 class EntityToModel{
     public static function usuario_entity_to_model(UsuarioEntity $usuario_entity): UsuarioModel{
