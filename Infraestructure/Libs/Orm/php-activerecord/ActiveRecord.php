@@ -16,29 +16,31 @@ require 'lib/SQLBuilder.php';
 require 'lib/Reflections.php';
 require 'lib/Inflector.php';
 require 'lib/CallBack.php';
-require 'lib/Exceptions.php';
+foreach (glob(__DIR__ . '/lib/Exception/*.php') as $filename) {
+    require_once $filename;
+};
+require_once $_SERVER["DOCUMENT_ROOT"] . "/crudmvcweb/Infraestructure/Database/Entities/UsuarioEntity.php";
+//spl_autoload_register('activerecord_autoload');
 
-spl_autoload_register('activerecord_autoload');
+// function activerecord_autoload($class_name)
+// {
+// 	// $path = ActiveRecord\Config::instance()->get_model_directory();
+// 	// $root = realpath(isset($path) ? $path : '.');
 
-function activerecord_autoload($class_name)
-{
-	$path = ActiveRecord\Config::instance()->get_model_directory();
-	$root = realpath(isset($path) ? $path : '.');
+// 	if (($namespaces = ActiveRecord\get_namespaces($class_name)))
+// 	{
+// 		$class_name = array_pop($namespaces);
+// 		$directories = array();
 
-	if (($namespaces = ActiveRecord\get_namespaces($class_name)))
-	{
-		$class_name = array_pop($namespaces);
-		$directories = array();
+// 		foreach ($namespaces as $directory)
+// 			$directories[] = $directory;
 
-		foreach ($namespaces as $directory)
-			$directories[] = $directory;
+// 		//$root .= DIRECTORY_SEPARATOR . implode($directories, DIRECTORY_SEPARATOR);
+// 	}
 
-		$root .= DIRECTORY_SEPARATOR . implode($directories, DIRECTORY_SEPARATOR);
-	}
+// 	//$file = "$root/$class_name.php";
 
-	$file = "$root/$class_name.php";
-
-	if (file_exists($file))
-		require $file;
-}
+// 	//if (file_exists($file))
+// 		//require $file;
+// }
 ?>

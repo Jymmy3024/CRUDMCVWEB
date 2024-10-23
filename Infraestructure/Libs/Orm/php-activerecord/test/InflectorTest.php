@@ -1,24 +1,31 @@
 <?php
-include 'helpers/config.php';
-require_once dirname(__FILE__) . '/../lib/Inflector.php';
 
-class InflectorTest extends SnakeCase_PHPUnit_Framework_TestCase
+use ActiveRecord\Inflector;
+use PHPUnit\Framework\TestCase;
+
+require_once __DIR__ . '/../lib/Inflector.php';
+
+class InflectorTest extends TestCase
 {
-	public function set_up()
-	{
-		$this->inflector = ActiveRecord\Inflector::instance();
-	}
+    public function testUnderscorify()
+    {
+        $this->assertEquals('rm__name__bob', Inflector::variablize('rm--name  bob'));
+        $this->assertEquals('One_Two_Three', Inflector::underscorify('OneTwoThree'));
+    }
 
-	public function test_underscorify()
-	{
-		$this->assert_equals('rm__name__bob',$this->inflector->variablize('rm--name  bob'));
-		$this->assert_equals('One_Two_Three',$this->inflector->underscorify('OneTwoThree'));
-	}
+    public function testTableize()
+    {
+        $this->assertEquals('angry_people', Inflector::tableize('AngryPerson'));
+        $this->assertEquals('my_sqls', Inflector::tableize('MySQL'));
+    }
 
-	public function test_tableize()
-	{
-		$this->assert_equals('angry_people',$this->inflector->tableize('AngryPerson'));
-		$this->assert_equals('my_sqls',$this->inflector->tableize('MySQL'));
-	}
-};
-?>
+    public function testUncamelize()
+    {
+        $this->assertEquals('cute_puppy', Inflector::uncamelize('CutePuppy'));
+    }
+
+    public function testKeyify()
+    {
+        $this->assertEquals('building_type_id', Inflector::keyify('BuildingType'));
+    }
+}

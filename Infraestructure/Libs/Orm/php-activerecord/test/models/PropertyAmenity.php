@@ -1,12 +1,16 @@
 <?php
-class PropertyAmenity extends ActiveRecord\Model
-{
-	static $table_name = 'property_amenities';
-	static $primary_key = 'id';
 
-	static $belongs_to = array(
-		array('amenity'),
-		array('property')
-	);
-};
-?>
+namespace test\models;
+
+use ActiveRecord\Model;
+
+class PropertyAmenity extends Model
+{
+    public static string $table_name = 'property_amenities';
+    public static string $primary_key = 'id';
+
+    public static array $belongs_to = [
+        'amenity' => true,
+        'property' => true
+    ];
+}

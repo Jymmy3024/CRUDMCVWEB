@@ -18,7 +18,7 @@ class UsuarioRepository implements IUsuarioRepository
 
             return $usuariosModels;
         } catch (Exception $e) {
-            throw new Exception("No hay usuarios registrados.");
+            throw new Exception("No hay usuarios registrados: ".$e->getMessage());
         }
     }
 

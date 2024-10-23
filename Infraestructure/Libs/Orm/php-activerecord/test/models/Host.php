@@ -1,9 +1,15 @@
 <?php
-class Host extends ActiveRecord\Model
+
+namespace test\models;
+
+use ActiveRecord\Model;
+
+class Host extends Model
 {
-	static $has_many = array(
-		array('events'),
-		array('venues', 'through' => 'events')
-	);
+    public static array $has_many = [
+        'events' => true,
+        'venues' => [
+            'through' => 'events'
+        ]
+    ];
 }
-?>

@@ -1,7 +1,7 @@
 <?php
-require_once $_SERVER["DOCUMENT_ROOT"]."/Domain/Models/UsuarioModel.php";
-require_once $_SERVER["DOCUMENT_ROOT"]."/Application/Contracts/IUsuarioRepository.php";
-require_once $_SERVER["DOCUMENT_ROOT"]."/Application/Contracts/IBuscarUsuarioService.php";
+require_once $_SERVER["DOCUMENT_ROOT"]."/crudmvcweb/Domain/Models/UsuarioModel.php";
+require_once $_SERVER["DOCUMENT_ROOT"]."/crudmvcweb/Application/Contracts/IUsuarioRepository.php";
+require_once $_SERVER["DOCUMENT_ROOT"]."/crudmvcweb/Application/Contracts/IBuscarUsuarioService.php";
 
 class BuscarUsuarioService implements IBuscarUsuarioService{
     private $usuarioRepository;

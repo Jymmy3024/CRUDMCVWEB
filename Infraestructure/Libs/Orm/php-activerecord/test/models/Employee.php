@@ -1,6 +1,10 @@
 <?php
-class Employee extends ActiveRecord\Model
+
+namespace test\models;
+
+use ActiveRecord\Model;
+
+class Employee extends Model
 {
-	static $has_one;
-};
-?>
+    public static array $has_one;
+}

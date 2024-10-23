@@ -1,7 +1,8 @@
 <?php
-require_once $_SERVER["DOCUMENT_ROOT"]."/Domain/Models/UsuarioModel.php";
-require_once $_SERVER["DOCUMENT_ROOT"]."/Application/Contracts/IUsuarioRepository.php";
-require_once $_SERVER["DOCUMENT_ROOT"]."/Application/Contracts/IGuardarUsuarioService.php";
+require_once $_SERVER["DOCUMENT_ROOT"]."/crudmvcweb/Domain/Models/UsuarioModel.php";
+require_once $_SERVER["DOCUMENT_ROOT"]."/crudmvcweb/Application/Contracts/IUsuarioRepository.php";
+require_once $_SERVER["DOCUMENT_ROOT"]."/crudmvcweb/Application/Contracts/IGuardarUsuarioService.php";
+require_once $_SERVER["DOCUMENT_ROOT"]."/crudmvcweb/Application/Exceptions/EntityPreexistingException.php";
 
 class GuardarUsuarioService implements IGuardarUsuarioService
 {
@@ -14,8 +15,14 @@ class GuardarUsuarioService implements IGuardarUsuarioService
 
     public function guardarUsuario(UsuarioModel $usuario) : int
     {
-        $this->usuarioRepository->createUser($usuario);
-        return $this->usuarioRepository->count();
+        try{
+            return $this->usuarioRepository->createUser($usuario);
+        }catch(EntityPreexistingException $e)
+        {
+            throw $e;
+        }
+        
+        
     }
 }
 ?>

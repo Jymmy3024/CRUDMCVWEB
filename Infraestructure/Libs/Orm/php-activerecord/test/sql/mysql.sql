@@ -2,14 +2,19 @@ CREATE TABLE authors(
 	author_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	parent_author_id INT,
 	name VARCHAR(25) NOT NULL DEFAULT 'default_name',
+	mixedCaseField varchar(50),
 	updated_at datetime,
 	created_at datetime,
 	some_date date,
 	some_time time,
 	some_text text,
 	some_enum enum('a','b','c'),
-	encrypted_password varchar(50),
-	mixedCaseField varchar(50)
+	encrypted_password varchar(50)
+) ENGINE=InnoDB;
+
+CREATE TABLE honest_lawyers (
+    lawyer_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(25) NOT NULL DEFAULT 'default_name'
 ) ENGINE=InnoDB;
 
 CREATE TABLE books(
@@ -17,9 +22,15 @@ CREATE TABLE books(
 	Author_Id INT,
 	secondary_author_id INT,
 	name VARCHAR(50),
+	publisher VARCHAR(50),
 	numeric_test VARCHAR(10) DEFAULT '0',
 	special NUMERIC(10,2) DEFAULT 0
 );
+
+CREATE TABLE publishers(
+	publisher_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	name VARCHAR(25) NOT NULL DEFAULT 'default_name'
+) ENGINE=InnoDB;
 
 CREATE TABLE venues (
 	Id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -33,7 +44,7 @@ CREATE TABLE venues (
 
 CREATE TABLE events (
 	id int NOT NULL auto_increment PRIMARY KEY,
-	venue_id int NOT NULL,
+	venue_id int NULL,
 	host_id int NOT NULL,
 	title varchar(60) NOT NULL,
 	description varchar(50),
@@ -84,4 +95,40 @@ CREATE TABLE property_amenities(
   `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `amenity_id` int(11) NOT NULL DEFAULT '0',
   `property_id` int(11) NOT NULL DEFAULT '0'
+);
+
+CREATE TABLE users (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY
+) ENGINE=InnoDB;
+
+CREATE TABLE newsletters (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY
+) ENGINE=InnoDB;
+
+CREATE TABLE user_newsletters (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    newsletter_id INT NOT NULL
+) ENGINE=InnoDB;
+
+CREATE TABLE valuestore (
+  `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `key` varchar(20) NOT NULL DEFAULT '',
+  `value` varchar(255) NOT NULL DEFAULT ''
+) ENGINE=InnoDB;
+
+CREATE TABLE students (
+  student_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  first_name VARCHAR(255) NOT NULL
+) ENGINE=InnoDB;
+
+CREATE TABLE courses (
+  course_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(255) NOT NULL
+) ENGINE=InnoDB;
+
+CREATE TABLE courses_students(
+  `course_id` int(11) NOT NULL DEFAULT '0',
+  `student_id` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY(course_id, student_id)
 );

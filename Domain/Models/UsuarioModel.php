@@ -31,7 +31,7 @@ class UsuarioModel{
             $message = "La clave del usuario es requerida";
             return array("resultado" => false, "mensaje" => $message);
         }
-        if(strlen($clave) <= 8){
+        if(strlen($clave) < 8){
             $message = "La clave debe tener al menos 8 caracteres";
             return array("resultado" => false, "mensaje" => $message);
         }
