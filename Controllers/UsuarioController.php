@@ -17,25 +17,6 @@ class UsuarioController{
         $this->usuarioRepository = $usuarioRepository;
     }
 
-    public function actionExecute(): void
-    {
-        $accion = isset($_REQUEST["action"]) ? $_REQUEST["action"] : "listar";
-        switch ($accion) {
-            case  "listar":
-                $this->listarUsuarios();
-                break;
-            case "guardar":
-                $this->guardarUsuario();
-                break;
-            case "buscar":
-                //$this->buscarUsuario();
-                break;
-            default:
-                $this->listarUsuarios();
-                break;
-        }
-    }
-
     public function guardarUsuario(): void
     {
         try{
@@ -48,22 +29,22 @@ class UsuarioController{
             $guardarUsuarioService = new GuardarUsuarioService($this->usuarioRepository);
             $total = $guardarUsuarioService->guardarUsuario($usuarioModel);
             $message = "Usuario guardado correctamente. Total = $total";
-            header("Location: ../Views/Forms/Usuarios/Create.php?message=$message");
+            header("Location: ../Views/Forms/Usuarios/create.php?message=$message");
         }catch(Exception $e){
             $message = $e->getMessage();
-            header("Location: ../Views/Forms/Usuarios/Create.php?message=$message");
+            header("Location: ../Views/Forms/Usuarios/create.php?ErrorMessage=$message");
         }
+    }
+
+    public function index(){
+        header("Location: ../Views/Forms/Usuarios/create.php");
     }
 
     public function listarUsuarios()
     {
         $listarUsuariosService = new ListarUsuariosService($this->usuarioRepository);
         $usuarios = $listarUsuariosService->listarUsuarios();
-        require('../Views/Forms/Usuarios/listar.php');
+        require_once '../Views/Forms/Usuarios/listar.php';
     }
 
 }
-
-$usuarioRepository = new UsuarioRepository(); 
-$controller = new UsuarioController($usuarioRepository);
-$controller->actionExecute();

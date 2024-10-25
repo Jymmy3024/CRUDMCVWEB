@@ -9,7 +9,14 @@
 <body>
     <div class="container mt-5">
         <h2 class="text-center">Agregar Nuevo Usuario</h2>
-        <form action="../../../Controllers/UsuarioController.php" method="POST">
+        <div class="m-3">
+            <?php if(($_GET["message"] ?? null) != null):?>
+                <div class="alert alert-success p-3 text-center" ><span><?php echo $_GET["message"] ?? '' ?></span></div>
+            <?php elseif(($_GET["ErrorMessage"] ?? null) != null): ?>
+                    <div class="alert alert-danger p-3 text-center" ><span><?php echo $_GET["ErrorMessage"] ?? '' ?></span></div>
+            <?php endif; ?>
+        </div>
+        <form action="../../../Controllers/UsuarioController.php" method="POST" class="m-3">
             <div class="form-group">
                 <label for="identificacion">Identificación</label>
                 <input type="text" class="form-control" id="identificacion" name="identificacion" required>
@@ -26,9 +33,19 @@
                 <label for="password"> Clave</label>
                 <input type="password" class="form-control" id="clave" name="clave" required>
             </div>
-            <button type="submit" class="btn btn-success" name="action" value="guardar">Guardar Usuario</button>
+            <div class="form-group" >
+                <div class="row">
+                    <div class="col">
+                        <button type="submit" class="btn btn-success" name="action" value="guardar">Guardar Usuario</button>
+                    </div>
+                    <div class="col text-right">
+                        <a href="../../../Controllers/UsuarioController.php?action=listar" class="btn btn-secondary">Lista de usuarios</a>
+                    </div>
+                </div>
+            </div>
+            
         </form>
-        <div class="alert alert-success" ><span><?php echo $_GET["message"] ?? '' ?></span></div>
+        
     </div>
 
     <!-- Incluimos Bootstrap JS -->

@@ -38,7 +38,7 @@ class UsuarioRepository implements IUsuarioRepository
         try {
             $user = $this->findUserByIdentificacion($usuario->getIdentificacion());
             if ($user) {
-                throw new EntityPreexistingException("El usuario con la indentificacion" . $usuario->getIdentificacion() . "ya existe.");
+                throw new EntityPreexistingException("El usuario con la indentificación " . $usuario->getIdentificacion() . " ya existe.");
             }
         } catch (EntityNotFoundException $e) {
             $usuarioEntity = EntityToModel::usuario_model_to_entity($usuario);

@@ -8,8 +8,15 @@
 </head>
 <body>
     <div class="container mt-5">
-        <h2 class="text-center">Listado de Usuarios</h2>
-        <table class="table table-striped table-bordered">
+        <div class="row">
+            <div class="col-10 ">
+                <h2 class="text-center ml-5">Listado de Usuarios</h2>
+            </div>
+            <div class="col-2 text-right">
+                <a href="crear.php" class="btn btn-success pl-3">Crear Usuario</a>
+            </div>
+        </div>
+        <table class="table table-striped table-bordered m-4">
             <thead>
                 <tr>
                     <th>Identificación</th>
@@ -37,6 +44,7 @@
                     <?php endforeach; ?>
                 <?php else : ?>
                     <tr>
+                        
                         <td colspan="4" class="text-center">No hay usuarios registrados</td>
                     </tr>
                 <?php endif; ?>
