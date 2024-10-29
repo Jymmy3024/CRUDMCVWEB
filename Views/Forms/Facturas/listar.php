@@ -7,16 +7,26 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
-    <div class="container mt-5">
+    <div class="container mt-3">
         <div class="row">
-            <div class="col-10">
-                <h2 class="text-center">Listado de Facturas</h2>
+            <div class="col-8">
+                <h2 class="text-end me-5">Listado de Facturas</h2>
             </div>
-            <div class="col-2 text-right">
+            <div class="col-4 text-end">
                 <a href="index.php?action=createView" class="btn btn-success">Crear Factura</a>
             </div>
         </div>
-        
+            <div class="m-3 ps-5">
+                <?php if(($_GET["message"] ?? null) != null):?>
+                    <div class="alert alert-success p-3 text-center">
+                        <span><?php echo $_GET["message"] ?? '' ?></span>
+                    </div>
+                    <?php elseif(($_GET["ErrorMessage"] ?? null) != null): ?>
+                        <div class="alert alert-danger p-3 text-center">
+                            <span><?php echo $_GET["ErrorMessage"] ?? '' ?></s>
+                        </div>
+                <?php endif; ?>
+            </div>
         <table class="table table-striped table-bordered m-4">
             <thead>
                 <tr>
@@ -47,10 +57,10 @@
                             <td><?php echo htmlspecialchars(number_format($factura->getDescuento(), 1)); ?></td>
                             <td>
                                 <!-- Botón Editar -->
-                                <a href="editar.php?id=<?php echo urlencode($factura->getCodigo()); ?>" class="btn btn-primary btn-sm">Editar</a>
+                                <a href="index.php?codigoFactura=<?php echo urlencode($factura->getCodigo()); ?>&action=cargarFormulario" class="btn btn-primary btn-sm">Editar</a>
                                 
                                 <!-- Botón Eliminar -->
-                                <a href="eliminar.php?id=<?php echo urlencode($factura->getCodigo()); ?>" class="btn btn-danger btn-sm" 
+                                <a href="index.php?codigoFactura=<?php echo urlencode($factura->getCodigo()); ?>&action=eliminar" class="btn btn-danger btn-sm" 
                                    onclick="return confirm('¿Estás seguro de que deseas eliminar esta factura?');">Eliminar</a>
                             </td>
                         </tr>

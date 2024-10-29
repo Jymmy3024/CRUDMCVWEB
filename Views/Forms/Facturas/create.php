@@ -73,7 +73,7 @@
                         <button type="submit" class="btn btn-success" name="action" value="guardar">Guardar Factura</button>
                     </div>
                     <div class="col text-end">
-                        <a href="../../index.php?" class="btn btn-secondary">Lista de facturas</a>
+                        <a href="index.php" class="btn btn-secondary">Lista de facturas</a>
                     </div>
                 </div>
             </div>

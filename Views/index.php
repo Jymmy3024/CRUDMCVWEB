@@ -16,6 +16,16 @@ $controller = new FacturaController($facturaRepository);
             case "createView":
                 $controller->createView();
                 break;
+            case "cargarFormulario":
+                $codigoFactura = isset($_REQUEST["codigoFactura"]) ? $_REQUEST["codigoFactura"] : "";
+                $controller->cargarFormulario($codigoFactura);
+                break;
+            case "editar":
+                $controller->editarFactura();
+                break;
+            case "eliminar":
+                $codigoFactura = isset($_REQUEST["codigoFactura"]) ? $_REQUEST["codigoFactura"] : "";
+                $controller->eliminarFactura($codigoFactura);
             default:
                 $controller->listarFacturas();
                 break;

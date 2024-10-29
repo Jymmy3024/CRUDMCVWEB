@@ -22,14 +22,14 @@ class FacturaRepository implements IFacturaRepository
         }
     }
 
-    public function findFacturaByCodigo(string $identificacion): FacturaModel
+    public function findFacturaByCodigo(string $codigo): FacturaModel
     {
         try {
-            $factura = FacturaEntity::find($identificacion);
+            $factura = FacturaEntity::find($codigo);
             $facturaModel = EntityToModel::factura_entity_to_model($factura);
             return $facturaModel;
         } catch (Exception $e) {
-            throw new EntityNotFoundException("El usuario con identificación $identificacion no existe.");
+            throw new EntityNotFoundException("El usuario con identificación $codigo no existe.");
         }
     }
 
@@ -53,23 +53,31 @@ class FacturaRepository implements IFacturaRepository
     public function updateFactura(FacturaModel $factura)
     {
         try {
-            $facturaModel = $this->findFacturaByCodigo($factura->getCodigo());
-            $facturaEntities = EntityToModel::factura_model_to_entity($facturaModel);
-            $facturaEntities->save();
+            $facturaEntity = FacturaEntity::find($factura->getCodigo());
+            $facturaEntity->descripcion = $factura->getDescripcion();
+            $facturaEntity->email = $factura->getEmail();
+            $facturaEntity->clave = $factura->getClave();
+            $facturaEntity->idPedido = $factura->getIdPedido();
+            $facturaEntity->fechaFactura = $factura->getFechaFactura();
+            $facturaEntity->totalFactura = $factura->getTotalFactura();
+            $facturaEntity->metodoPago = $factura->getMetodoPago();
+            $facturaEntity->idCliente = $factura->getIdCliente();
+            $facturaEntity->descuento = $factura->getDescuento();
+            $facturaEntity->save();
         } catch (EntityNotFoundException $e) {
             $message = "El usuario con cedula " . $factura->getCodigo() . " no existe.";
             throw new EntityNotFoundException($message);
         }
     }
 
-    public function deleteFactura(string $identificacion)
+    public function deleteFactura(string $codigo)
     {
         try {
-            $facturaModel = $this->findFacturaByCodigo($identificacion);
+            $facturaModel = $this->findFacturaByCodigo($codigo);
             $facturaEntities = EntityToModel::factura_model_to_entity($facturaModel);
             $facturaEntities->delete();
         } catch (Exception $e) {
-            throw new EntityNotFoundException("El usuario que desea eliminar con la indentificacion $identificacion no existe.");
+            throw new EntityNotFoundException("El usuario que desea eliminar con la indentificacion $codigo no existe.");
         }
     }
     public function count(): int
