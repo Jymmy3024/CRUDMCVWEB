@@ -19,7 +19,7 @@ require 'lib/CallBack.php';
 foreach (glob(__DIR__ . '/lib/Exception/*.php') as $filename) {
     require_once $filename;
 };
-require_once $_SERVER["DOCUMENT_ROOT"] . "/crudmvcweb/Infraestructure/Database/Entities/UsuarioEntity.php";
+require_once $_SERVER["DOCUMENT_ROOT"] . "/crudmvcweb/Infraestructure/Database/Entities/FacturaEntity.php";
 //spl_autoload_register('activerecord_autoload');
 
 // function activerecord_autoload($class_name)

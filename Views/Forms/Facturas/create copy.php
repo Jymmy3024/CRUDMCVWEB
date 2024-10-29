@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agregar Nuevo Usuario</title>
+    <title>Crear Nueva Factura</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
     <div class="container mt-5">
-        <h2 class="text-center">Agregar Nuevo Usuario</h2>
+        <h2 class="text-center">Crear Nueva Factura</h2>
         <div class="m-3">
             <?php if(($_GET["message"] ?? null) != null):?>
                 <div class="alert alert-success p-3 text-center" ><span><?php echo $_GET["message"] ?? '' ?></span></div>
